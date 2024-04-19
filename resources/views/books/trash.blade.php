@@ -2,8 +2,7 @@
 
 @section("content")
 
-    <a href="{{route("chapters.create",["id"=>$book->id])}}" class="btn btn-primary mb-3">Ajouter un nouveau chapitre au livre {{$book->title}}</a>
-    <a href="#" class="btn btn-primary mb-3">Corbeille</a>
+    <a href="{{route("books.force-delete-all")}}" class="btn btn-primary mb-3">Vider la corbeille</a>
     <table class="table">
         <thead>
         <tr>
@@ -16,13 +15,13 @@
         </thead>
         <tbody>
 
-        @foreach($chapters as $chapter)
+        @foreach($books as $book)
             <tr>
-                <th scope="row">{{$chapter->id}}</th>
-                <td>{{$chapter->title}}</td>
-                <td>{{$chapter->description}}</td>
+                <th scope="row">{{$book->id}}</th>
+                <td>{{$book->title}}</td>
+                <td>{{$book->description}}</td>
                 <td>
-                    @if($chapter->published == 1)
+                    @if($book->published == 1)
                         @php
                             $color = "bg-primary";
                             $text = "Publié";
@@ -37,9 +36,8 @@
                     <span class="badge {{$color}}">{{$text}}</span>
                 </td>
                 <td>
-                    <a href="{{route("chapters.show", ["id" => $chapter->id])}}" class="btn btn-primary">Details</a>
-                    <a href="{{route("chapters.edit", ["id" => $chapter->id])}}" class="btn btn-warning">Modifier</a>
-                    <a href="{{route("chapters.delete", ["id" => $chapter->id])}}" class="btn btn-danger">Supprimer</a>
+                    <a href="{{route("books.restore", ["id" => $book->id])}}" class="btn btn-warning">Restaurer</a>
+                    <a href="{{route("books.force-delete", ["id" => $book->id])}}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         @endforeach

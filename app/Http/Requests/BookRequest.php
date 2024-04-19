@@ -23,7 +23,7 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => ['required','min:5','max:100'],
-            'description' => 'required|min:10|max:500',
+            'description' => 'required|min:10',
             'published' => ''
         ];
     }

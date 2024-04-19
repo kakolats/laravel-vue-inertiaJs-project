@@ -12,6 +12,10 @@ class ChapterController extends Controller
         $book = Book::findOrFail($id);
         //Query to find all chapters of a book
         $chapters = Chapter::where('book_id', $id)->get();
+        //Reduce the description to 50 characters
+        foreach($chapters as $chapter){
+            $chapter->description = substr($chapter->description, 0, 60)."...";
+        }
         //dd($chapters);
         return view('chapters.index', compact('chapters', 'book'));
     }
@@ -31,13 +35,23 @@ class ChapterController extends Controller
             'description' => $description,
             'published' => $published
         ]);
-        return redirect()->route('books.show', $id);
+        return redirect()->route('chapters.bookChapters', $id);
+    }
+
+    public function update(ChapterRequest $request, Chapter $chapter){
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $published = $request->input('published')=="on"?true:false;
+        $chapter->update([
+            'title' => $title,
+            'description' => $description,
+            'published' => $published
+        ]);
+        return redirect()->route('chapters.bookChapters', $chapter->book->id);
     }
 
     public function edit($id){
         $chapter = Chapter::findOrFail($id);
-        $book = $chapter->book;
-        dd($book);
         return view('chapters.edit', compact('chapter'));
     }
 
@@ -45,4 +59,12 @@ class ChapterController extends Controller
         $chapter = Chapter::findOrFail($id);
         return view('chapters.show', compact('chapter'));
     }
+
+    public function delete($id){
+        $chapter = Chapter::findOrFail($id);
+        $book = $chapter->book;
+        $chapter->delete();
+        return redirect()->route('chapters.bookChapters', $book->id);
+    }
+
 }

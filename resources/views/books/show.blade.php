@@ -1,6 +1,6 @@
-@extends("layout.base")
+@extends("layout.base_client")
 
-@section("content")
+@section("content1")
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8">

@@ -1,7 +1,7 @@
 @extends("layout.base")
 
 @section("content")
-    <form class="row col-sm-6 m-auto" method="post" action="{{route('books.store')}}" enctype="multipart/form-data">
+    <form class="row col-sm-6 m-auto" method="post" action="{{route('books.update',['book'=>$book])}}" enctype="multipart/form-data">
         @csrf
         <h1 class="text-center">Mise à jour de livre</h1>
         @if($errors->any())
@@ -16,10 +16,12 @@
         </div>
 
         <div class="form-outline mb-4">
-            <textarea  id="form2Example2" class="form-control" name="description">
-                {{$book->description}}
-            </textarea>
+            <textarea  id="form2Example2" class="form-control" name="description">{{$book->description}}</textarea>
             <label class="form-label" for="form2Example2">Description</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="file" id="form2Example1" class="form-control" name="file" />
         </div>
 
         <div class="form-check">

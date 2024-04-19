@@ -9,12 +9,18 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function home(){
+        return redirect()->route('books.index');
+    }
+
     public function index(){
         $books = Book::paginate(9);
         $page = 'books.index';
         $url = url()->current();
         if(strpos($url,'front')!==false){
             $page = 'clients.index';
+            //books that are published
+            $books = Book::where('published', true)->paginate(9);
         }
         return view($page, compact('books'));
     }
@@ -42,9 +48,34 @@ class BookController extends Controller
         return redirect()->route('books.index');
     }
 
+    public function update(BookRequest $request, Book $book){
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $published = $request->input('published')=="on"?true:false;
+        $image = $request->file('file');
+        $imageName = $book->imageLink;
+        if($image!=null) {
+            $imageName=$image->storePublicly('/bookPicture', 'public');
+            //delete the old image
+            $oldImage = $book->imageLink;
+            if($oldImage!=null){
+                unlink(public_path('storage/'.$oldImage));
+            }
+            //dd($imageName);
+        }
+        $book->update([
+            'title' => $title,
+            'description' => $description,
+            'published' => $published,
+            'imageLink' => $imageName
+        ]);
+        return redirect()->route('books.index');
+    }
+
     public function show($id){
         $book = Book::findOrFail($id);
-        $chapters = Chapter::where('book_id', $id)->get();
+        //Query to find all chapters of a book that are published
+        $chapters = Chapter::where('book_id', $id)->where('published', true)->get();
         return view('books.show',compact('book','chapters'));
     }
 

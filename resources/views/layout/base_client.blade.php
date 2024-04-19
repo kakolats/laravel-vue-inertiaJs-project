@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-@include("layout.user_header")
+
 @yield("content1")
 
 </body>
@@ -38,7 +38,7 @@
 <footer>
     <div class="container">
         <div class="col-lg-12">
-            <p>Copyright © 2036 Scholar Organization. All rights reserved. &nbsp;&nbsp;&nbsp; Design: <a href="https://templatemo.com" rel="nofollow" target="_blank">TemplateMo</a></p>
+            <p>Copyright © 2024 Kakolats Incorporated. All rights reserved.</p>
         </div>
     </div>
 </footer>

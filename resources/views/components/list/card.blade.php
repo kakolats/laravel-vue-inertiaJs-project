@@ -12,11 +12,11 @@
 <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design">
     <div class="events_item">
         <div class="thumb">
-            <a href="#"><img height="300px" width="350px" src="{{asset("storage/$book->imageLink")}}" alt=""></a>
-            <span class="category">Webdesign</span>
+            <a href="{{route("books.show", ["id" => $book->id])}}"><img height="300px" width="350px" src="{{asset("storage/$book->imageLink")}}" alt=""></a>
+            {{--<span class="category">Webdesign</span>--}}
         </div>
         <div class="down-content">
-            <span class="author">Stella Blair</span>
+            {{--<span class="author">Stella Blair</span>--}}
             <h4>{{$book->title}}</h4>
         </div>
     </div>

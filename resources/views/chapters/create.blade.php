@@ -17,8 +17,7 @@
 
         <!-- Password input -->
         <div class="form-outline mb-4">
-            <textarea  id="form2Example2" class="form-control" name="description">
-            </textarea>
+            <textarea  id="form2Example2" class="form-control" name="description"></textarea>
             <label class="form-label" for="form2Example2">Description</label>
         </div>
 
