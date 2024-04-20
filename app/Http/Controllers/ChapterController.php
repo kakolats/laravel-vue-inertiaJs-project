@@ -11,18 +11,19 @@ class ChapterController extends Controller
     public function index($id){
         $book = Book::findOrFail($id);
         //Query to find all chapters of a book
-        $chapters = Chapter::where('book_id', $id)->get();
+        $chapters = Chapter::where('book_id', $id)->paginate(4);
         //Reduce the description to 50 characters
         foreach($chapters as $chapter){
             $chapter->description = substr($chapter->description, 0, 60)."...";
         }
+        //Pagination
         //dd($chapters);
-        return view('chapters.index', compact('chapters', 'book'));
+        return inertia('Chapters/Index', compact('chapters', 'book'));
     }
 
     public function create($id){
         $book = Book::findOrFail($id);
-        return view('chapters.create', compact('book'));
+        return inertia('Chapters/Create', compact('book'));
     }
 
     public function store(ChapterRequest $request, $id){
@@ -52,7 +53,7 @@ class ChapterController extends Controller
 
     public function edit($id){
         $chapter = Chapter::findOrFail($id);
-        return view('chapters.edit', compact('chapter'));
+        return inertia('Chapters/Update', compact('chapter'));
     }
 
     public function show($id){

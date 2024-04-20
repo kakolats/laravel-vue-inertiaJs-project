@@ -14,19 +14,23 @@ class BookController extends Controller
     }
 
     public function index(){
-        $books = Book::paginate(9);
-        $page = 'books.index';
+        $books = Book::paginate(2);
+        $page = 'Books/Index';
         $url = url()->current();
         if(strpos($url,'front')!==false){
-            $page = 'clients.index';
+            $page = 'Books/ClientIndex';
             //books that are published
             $books = Book::where('published', true)->paginate(9);
         }
-        return view($page, compact('books'));
+        //Limit the size of the description
+        foreach($books as $book){
+            $book->description = substr($book->description, 0, 100);
+        }
+        return inertia($page, compact('books'));
     }
 
     public function create(){
-        return view('books.create');
+        return inertia('Books/Create');
     }
 
     public function store(BookRequest $request){
@@ -86,13 +90,18 @@ class BookController extends Controller
     }
 
     public function trash(){
-        $books = Book::onlyTrashed()->get();
-        return view('books.trash', compact('books'));
+        $books = Book::onlyTrashed()->paginate(4);
+        return inertia('Books/Bin/Trash', compact('books'));
     }
 
     public function restore($id){
         $book = Book::onlyTrashed()->findOrFail($id);
         $book->restore();
+        return redirect()->route('books.index');
+    }
+
+    public function forceDeleteAll(){
+        Book::onlyTrashed()->forceDelete();
         return redirect()->route('books.index');
     }
 
@@ -102,13 +111,10 @@ class BookController extends Controller
         return redirect()->route('books.index');
     }
 
-    public function forceDeleteAll(){
-        Book::onlyTrashed()->forceDelete();
-        return redirect()->route('books.index');
-    }
+
 
     public function edit($id){
         $book = Book::findOrFail($id);
-        return view('books.edit',compact('book'));
+        return inertia('Books/Update', compact('book'));
     }
 }

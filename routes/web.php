@@ -26,8 +26,8 @@ Route::controller(\App\Http\Controllers\BookController::class)
             Route::post('/books/create', 'store')->name('store');
             Route::get('/books/trash', 'trash')->name('trash');
             Route::get('/books/{id}/restore', 'restore')->name('restore');
-            Route::get('/books/{id}/force-delete', 'forceDelete')->name('force-delete');
             Route::get('/books/force-delete-all', 'forceDeleteAll')->name('force-delete-all');
+            Route::get('/books/{id}/force-delete', 'forceDelete')->name('force-delete');
             Route::get('/books/{id}', 'show')->name('show');
             Route::get('/books/{id}/delete', 'delete')->name('delete');
             Route::get('/books/{id}/edit', 'edit')->name('edit');
@@ -50,10 +50,9 @@ Route::controller(\App\Http\Controllers\ChapterController::class)
             Route::get('/chapters/{id}/restore', 'restore')->name('restore');
             Route::get('/chapters/trash', 'trash')->name('trash');
             Route::get('/chapters/{id}/force-delete', 'forceDelete')->name('force-delete');
-            Route::get('/chapters/force-delete-all', 'forceDeleteAll')->name('force-delete-all');
+            Route::get('/chapters/force-delete-all', 'forceDeleteAll')->name('force-delete-chapters');
         }
     );
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
