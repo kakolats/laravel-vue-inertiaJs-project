@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Chapter extends Model
 {
-
+    use hasFactory;
     protected $fillable = [
         'title',
         'description',
