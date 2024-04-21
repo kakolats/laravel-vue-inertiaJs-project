@@ -14,17 +14,21 @@ class BookController extends Controller
     }
 
     public function index(){
-        $books = Book::paginate(2);
+        $books = Book::paginate(9);
         $page = 'Books/Index';
-        $url = url()->current();
-        if(strpos($url,'front')!==false){
-            $page = 'Books/ClientIndex';
-            //books that are published
-            $books = Book::where('published', true)->paginate(9);
-        }
         //Limit the size of the description
         foreach($books as $book){
-            $book->description = substr($book->description, 0, 100);
+            $book->description = substr($book->description, 0, 40);
+        }
+        return inertia($page, compact('books'));
+    }
+
+    public function indexPublic(){
+        $page = 'Books/Front/Front';
+        //books that are published
+        $books = Book::where('published', true)->paginate(9);
+        foreach($books as $book){
+            $book->description = substr($book->description, 0, 40);
         }
         return inertia($page, compact('books'));
     }
@@ -36,7 +40,7 @@ class BookController extends Controller
     public function store(BookRequest $request){
         $title = $request->input('title');
         $description = $request->input('description');
-        $published = $request->input('published')=="on"?true:false;
+        $published = $request->input('published')=="1"?true:false;
         $image = $request->file('file');
         $imageName = null;
         if($image!=null) {
@@ -80,7 +84,7 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         //Query to find all chapters of a book that are published
         $chapters = Chapter::where('book_id', $id)->where('published', true)->get();
-        return view('books.show',compact('book','chapters'));
+        return inertia('Books/Front/Show',compact('book','chapters'));
     }
 
     public function delete($id){
@@ -101,12 +105,16 @@ class BookController extends Controller
     }
 
     public function forceDeleteAll(){
+        Book::onlyTrashed()->each(function ($book) {
+            $book->chapters()->forceDelete();
+        });
         Book::onlyTrashed()->forceDelete();
         return redirect()->route('books.index');
     }
 
     public function forceDelete($id){
         $book = Book::onlyTrashed()->findOrFail($id);
+        $book->chapters()->forceDelete();
         $book->forceDelete();
         return redirect()->route('books.index');
     }

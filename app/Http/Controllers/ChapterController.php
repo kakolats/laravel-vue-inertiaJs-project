@@ -58,7 +58,7 @@ class ChapterController extends Controller
 
     public function show($id){
         $chapter = Chapter::findOrFail($id);
-        return view('chapters.show', compact('chapter'));
+        return inertia('Chapters/Front/Index',compact('chapter'));
     }
 
     public function delete($id){

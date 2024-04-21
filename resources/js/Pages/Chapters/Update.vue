@@ -5,12 +5,14 @@
         <div class="form-outline mb-4">
             <input type="text" id="form2Example1" class="form-control" name="title" v-model="form.title" />
             <label class="form-label" for="form2Example1">Titre</label>
+            <div v-if="form.errors.title" class="alert alert-danger">{{form.errors.title}}</div>
         </div>
 
         <!-- Password input -->
         <div class="form-outline mb-4">
             <textarea  id="form2Example2" class="form-control" name="description" v-model="form.description"></textarea>
             <label class="form-label" for="form2Example2">Description</label>
+            <div v-if="form.errors.description" class="alert alert-danger">{{form.errors.description}}</div>
         </div>
 
         <div class="form-check">

@@ -13,13 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/login",[\App\Http\Controllers\AuthController::class,'showLoginPage'])
+    ->middleware('guest')
+    ->name('login');
 
+Route::post("/login",[\App\Http\Controllers\AuthController::class,'authenticate'])
+    ->middleware('guest')
+    ->name('login.post');
+
+Route::post("/logout",[\App\Http\Controllers\AuthController::class,'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
 Route::controller(\App\Http\Controllers\BookController::class)
     ->name('books.')
+    ->middleware('auth')
     ->group(
         function () {
-            Route::get('/','index')->name('home');
             Route::get('/books', 'index')->name('index');
             Route::get('/front/books', 'index')->name('front');
             Route::get('/books/create', 'create')->name('create');
@@ -36,8 +46,19 @@ Route::controller(\App\Http\Controllers\BookController::class)
         }
     );
 
+Route::controller(\App\Http\Controllers\BookController::class)
+    ->name('books.')
+    ->group(
+        function () {
+            Route::get('/','indexPublic')->name('home');
+            Route::get('/front/books', 'indexPublic')->name('front');
+            Route::get('/books/{id}', 'show')->name('show');
+        }
+);
+
 Route::controller(\App\Http\Controllers\ChapterController::class)
     ->name('chapters.')
+    ->middleware('auth')
     ->group(
         function () {
             Route::get('/chapters/{id}/show', 'show')->name('show');
@@ -54,5 +75,12 @@ Route::controller(\App\Http\Controllers\ChapterController::class)
         }
     );
 
+Route::controller(\App\Http\Controllers\ChapterController::class)
+    ->name('chapters.')
+    ->group(
+        function () {
+            Route::get('/chapters/{id}/show', 'show')->name('show');
+        }
+    );
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
