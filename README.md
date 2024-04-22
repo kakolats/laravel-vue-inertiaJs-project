@@ -23,8 +23,10 @@ Ce projet est une application de librairie(Livres,Chapitres) qui reuinit Laravel
 ![img.png](img.png)
 - Vous également Changer le mail et le Nom de votre utlisateur par défaut dans **"database/seeders/DatabaseSeeder"**
 8. Vous pouvez ensuite créer une base de données et configurer votre fichier .env en conséquence
-9. Et enfin vous pouvez faire les migrations et alimentater la base de données en lançant la commande
+9. Vous pouvez faire les migrations et alimenter la base de données en lançant la commande
 `php artisan migrate:fresh --seed`
+10. Et enfin lancez la commande `php artisan storage:link`
+
 
 ## Lancement de l'application
 
