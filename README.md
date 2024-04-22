@@ -35,6 +35,6 @@ Ce projet est une application de librairie(Livres,Chapitres) qui reuinit Laravel
 2. Ensuite lancez le client Vue
 `npm run dev`
 
-## Utlisation
+## Utilisation
 - Pour vous connecter utiliser la route '/login' et l'utlisateur présent dans DatabaseSeeder(test@example.com) avec le mot de passe
 **"password"**
